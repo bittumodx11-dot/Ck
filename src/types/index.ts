@@ -84,7 +84,7 @@ export interface LanguageProficiency {
 }
 
 export interface BiodataData {
-  language: 'en' | 'bn';
+  language: 'en' | 'bn' | 'hi';
   documentType:
     | 'biodata'
     | 'cv'
@@ -95,12 +95,16 @@ export interface BiodataData {
     | 'student-biodata'
     | 'job-cv'
     | 'custom';
-  template: 'classic' | 'simple' | 'professional' | 'modern' | 'marriage' | 'student' | 'minimal' | 'custom';
-  
+  template: string;
+  documentId?: string;
+  documentName?: string;
+  lastModified?: number;
+
   // Header / Title Customization
   documentTitle: string;
   showDocumentTitle: boolean;
   subtitle: string;
+  sacredHeader?: string;
   titleFont: string;
   titleSize: number;
   titleColor: string;
@@ -112,6 +116,8 @@ export interface BiodataData {
   titleAlignment: 'left' | 'center' | 'right';
   titleDecoration: 'bottom-border' | 'top-border' | 'double-border' | 'divider-line' | 'none';
   headerLayout: 'center' | 'left' | 'photo-left' | 'photo-right' | 'custom';
+  headerStyle?: 'standard' | 'banner' | 'clean' | 'split' | 'card' | 'traditional';
+  borderStyle?: 'none' | 'thin' | 'double' | 'ornate' | 'vintage' | 'royal';
 
   // Profile Photo Customization
   photoUrl: string | null;
@@ -165,7 +171,9 @@ export interface BiodataData {
     | 'serif'
     | 'sans'
     | 'bangla'
-    | 'bangla-serif';
+    | 'bangla-serif'
+    | 'hindi'
+    | 'hindi-serif';
   fontScale?: 'compact' | 'standard' | 'large';
   pageDensity?: 'comfortable' | 'standard' | 'compact' | 'ultra-compact';
   autoFitOnePage?: boolean;

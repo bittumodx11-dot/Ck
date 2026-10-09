@@ -1,4 +1,11 @@
-node_modules/ 
-dist/ 
-.env 
-.wrangler/
+node_modules/
+build/
+dist/
+release/
+dev-dist/
+downloads/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example

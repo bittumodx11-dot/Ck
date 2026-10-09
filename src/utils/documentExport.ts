@@ -2,7 +2,7 @@ import { toCanvas } from 'html-to-image';
 import { PDFDocument } from 'pdf-lib';
 import { downloadFile } from './pdfProcessing';
 
-export type ExportFormat = 'pdf' | 'jpg' | 'jpeg';
+export type ExportFormat = 'pdf' | 'jpg' | 'jpeg' | 'png';
 
 export interface ExportA4Options {
   filename?: string;
@@ -119,14 +119,14 @@ export async function exportElementToA4(
 
     if (distinctPages.length > 0) {
       // Exporting multiple designated A4 pages cleanly
-      if (format === 'jpg' || format === 'jpeg') {
-        const mimeType = 'image/jpeg';
-        const fileExt = format === 'jpeg' ? 'jpeg' : 'jpg';
+      if (format === 'jpg' || format === 'jpeg' || format === 'png') {
+        const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
+        const fileExt = format === 'jpeg' ? 'jpeg' : format === 'png' ? 'png' : 'jpg';
 
         for (let i = 0; i < distinctPages.length; i++) {
           onProgress?.(`Capturing page ${i + 1} of ${distinctPages.length}...`);
           const pageCanvas = await captureElementCanvas(distinctPages[i], scale, backgroundColor);
-          const pageDataUrl = pageCanvas.toDataURL(mimeType, quality);
+          const pageDataUrl = format === 'png' ? pageCanvas.toDataURL(mimeType) : pageCanvas.toDataURL(mimeType, quality);
           const pageName = distinctPages.length > 1 ? `${cleanBaseName}_page_${i + 1}` : cleanBaseName;
           downloadFile(pageDataUrl, `${pageName}.${fileExt}`, mimeType);
         }
@@ -176,10 +176,10 @@ export async function exportElementToA4(
 
     onProgress?.(`Generating ${format.toUpperCase()} file...`);
 
-    if (format === 'jpg' || format === 'jpeg') {
-      // Export as JPG / JPEG image
-      const mimeType = 'image/jpeg';
-      const fileExt = format === 'jpeg' ? 'jpeg' : 'jpg';
+    if (format === 'jpg' || format === 'jpeg' || format === 'png') {
+      // Export as JPG / JPEG / PNG image
+      const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
+      const fileExt = format === 'jpeg' ? 'jpeg' : format === 'png' ? 'png' : 'jpg';
 
       try {
         canvas.toBlob(
@@ -187,16 +187,16 @@ export async function exportElementToA4(
             if (blob) {
               downloadFile(blob, `${cleanBaseName}.${fileExt}`, mimeType);
             } else {
-              const dataUrl = canvas.toDataURL(mimeType, quality);
+              const dataUrl = format === 'png' ? canvas.toDataURL(mimeType) : canvas.toDataURL(mimeType, quality);
               downloadFile(dataUrl, `${cleanBaseName}.${fileExt}`, mimeType);
             }
             onProgress?.('Download complete!');
           },
           mimeType,
-          quality
+          format === 'png' ? undefined : quality
         );
       } catch {
-        const dataUrl = canvas.toDataURL(mimeType, quality);
+        const dataUrl = format === 'png' ? canvas.toDataURL(mimeType) : canvas.toDataURL(mimeType, quality);
         downloadFile(dataUrl, `${cleanBaseName}.${fileExt}`, mimeType);
         onProgress?.('Download complete!');
       }

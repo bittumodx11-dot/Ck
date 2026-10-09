@@ -117,6 +117,24 @@ export const PROFESSIONAL_FONTS: FontOption[] = [
     cssFamily: "'Noto Serif Bengali', 'Hind Siliguri', Georgia, serif",
     sampleText: 'ঐতিহ্যবাহী ও রাজকীয় বাংলা বায়োডাটা',
   },
+  {
+    id: 'hindi',
+    name: 'Noto Sans Devanagari',
+    bengaliName: 'হিন্দি দেবনাগরী সান্স',
+    category: 'Bengali',
+    tag: 'हिंदी आधुनिक फॉन्ट',
+    cssFamily: "'Noto Sans Devanagari', 'Poppins', system-ui, sans-serif",
+    sampleText: 'व्यावसायिक एवं पारिवारिक बायोडाटा',
+  },
+  {
+    id: 'hindi-serif',
+    name: 'Noto Serif Devanagari',
+    bengaliName: 'হিন্দি দেবনাগরী সেরিফ',
+    category: 'Bengali',
+    tag: 'हिंदी क्लासिकल सेरिफ',
+    cssFamily: "'Noto Serif Devanagari', Georgia, serif",
+    sampleText: 'पारंपरिक एवं सुरुचिपूर्ण बायोडाटा',
+  },
 ];
 
 export function getCssFontFamily(fontId?: string): string {
@@ -126,6 +144,8 @@ export function getCssFontFamily(fontId?: string): string {
   if (fontId === 'serif') return "'EB Garamond', 'Times New Roman', Georgia, serif";
   if (fontId === 'sans') return "'Inter', system-ui, sans-serif";
   if (fontId === 'bangla') return "'Hind Siliguri', system-ui, sans-serif";
+  if (fontId === 'hindi') return "'Noto Sans Devanagari', 'Poppins', system-ui, sans-serif";
+  if (fontId === 'hindi-serif') return "'Noto Serif Devanagari', Georgia, serif";
 
   return "'Plus Jakarta Sans', system-ui, sans-serif";
 }
